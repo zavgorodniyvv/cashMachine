@@ -50,31 +50,40 @@ class CacheMachineServiceTest {
 
     @Test
     void getCacheValidation(){
-        assertThrows(ValidateException.class, () -> cacheMachineService.getCache(-1));
-        assertThrows(ValidateException.class, () -> cacheMachineService.getCache(0));
+        assertThrows(ValidateException.class, () -> cacheMachineService.getCache(-1, null));
+        assertThrows(ValidateException.class, () -> cacheMachineService.getCache(0, null));
         cacheMachineService.addCache(List.of(new Cache(1000, 1)));
-        assertThrows(ValidateException.class, () -> cacheMachineService.getCache(1001));
-        assertDoesNotThrow(() -> cacheMachineService.getCache(200));
+        assertThrows(ValidateException.class, () -> cacheMachineService.getCache(1001, null));
+        assertDoesNotThrow(() -> cacheMachineService.getCache(200, null));
     }
 
     private static final List<List<Cache>> expectedCache = List.of(
             List.of(new Cache(1, 1)),
             List.of(new Cache(1000, 1), new Cache(2, 1)),
             List.of(new Cache(200, 1), new Cache(20, 1), new Cache(10, 1), new Cache(5,1)),
-            List.of(new Cache(1000, 1), new Cache(200, 1), new Cache(100, 1), new Cache(20, 2), new Cache(2, 1), new Cache(1,1 ))
+            List.of(new Cache(1000, 1), new Cache(200, 1), new Cache(100, 1), new Cache(20, 2), new Cache(2, 1), new Cache(1,1 )),
+            List.of(new Cache(100, 56), new Cache(2, 34), new Cache(1, 1))
     );
 
     private static final List<Integer> cache = List.of(
             1,
             1002,
             235,
-            1343
+            1343,
+            5669
     );
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3})
     void getCache(int i) {
         cacheMachineService.addCache(List.of(new Cache(1000, 1000)));
-        assertEquals(expectedCache.get(i), cacheMachineService.getCache(cache.get(i)));
+        assertEquals(expectedCache.get(i), cacheMachineService.getCache(cache.get(i), null));
+    }
+
+    @Test
+    void getCacheWithBills(){
+        cacheMachineService.addCache(List.of(new Cache(1000, 1000)));
+        assertEquals(expectedCache.get(4), cacheMachineService.getCache(cache.get(4), List.of(1, 2, 100)));
+
     }
 }

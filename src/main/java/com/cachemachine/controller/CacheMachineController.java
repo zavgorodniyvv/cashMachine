@@ -23,8 +23,8 @@ public class CacheMachineController {
         return new ResponseEntity<>(cacheMachineService.addCache(cache), HttpStatus.OK);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<Cache>> getCache(int sum){
-        return new ResponseEntity<>(cacheMachineService.getCache(sum), HttpStatus.OK);
+    @PostMapping("/{sum}")
+    public ResponseEntity<List<Cache>> getCache(int sum, @RequestBody List<Integer> billList){
+        return new ResponseEntity<>(cacheMachineService.getCache(sum, billList), HttpStatus.OK);
     }
 }

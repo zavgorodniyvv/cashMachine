@@ -20,18 +20,19 @@ public class CacheMachineService {
 
     @PostConstruct
     private void init(){
+        Collections.sort(billPars);
         Collections.reverse(billPars);
     }
 
     public int addCache(List<Cache> cache) {
-        isCacheDTOValid(cache);
+        isCacheValid(cache);
         for(var element: cache){
             sumInCacheMachine += element.getPar() * element.getQuantity();
         }
         return sumInCacheMachine;
     }
 
-    private void isCacheDTOValid(List<Cache> cache) {
+    private void isCacheValid(List<Cache> cache) {
         if(cache == null || cache.isEmpty()){
             throw new ValidateException("AddCacheDTO is null or empty");
         }
@@ -42,16 +43,24 @@ public class CacheMachineService {
         }
     }
 
-    public List<Cache> getCache(int sum) {
+    public List<Cache> getCache(int sum, List<Integer> billsList) {
         if(sum < 1){
             throw new ValidateException("Sum is less than 1");
         }
         if(sum > sumInCacheMachine){
             throw new ValidateException("Sum you want to get is greater than cache machine contains");
         }
+        List<Integer> localBillList;
+        if(billsList == null || billsList.isEmpty()){
+            localBillList = this.billPars;
+        }else{
+            localBillList = new ArrayList<>(billsList);
+            Collections.sort(localBillList);
+            Collections.reverse(localBillList);
+        }
         int tempSum = sum;
         var resultList = new ArrayList<Cache>();
-        for(var bill: billPars){
+        for(var bill: localBillList){
             if(bill > tempSum){
                 continue;
             }
