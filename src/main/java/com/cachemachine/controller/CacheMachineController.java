@@ -1,6 +1,6 @@
 package com.cachemachine.controller;
 
-import com.cachemachine.model.AddCacheDTO;
+import com.cachemachine.model.Cache;
 import com.cachemachine.service.CacheMachineService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +19,12 @@ public class CacheMachineController {
     }
 
     @PostMapping()
-    public ResponseEntity<Integer> addCacheToCacheMachine(@RequestBody List<AddCacheDTO> addCacheDTO){
-        return new ResponseEntity<>(cacheMachineService.addCache(addCacheDTO), HttpStatus.OK);
+    public ResponseEntity<Integer> addCacheToCacheMachine(@RequestBody List<Cache> cache){
+        return new ResponseEntity<>(cacheMachineService.addCache(cache), HttpStatus.OK);
     }
 
     @GetMapping()
-    public ResponseEntity<List<AddCacheDTO>> getCache(int sum){
+    public ResponseEntity<List<Cache>> getCache(int sum){
         return new ResponseEntity<>(cacheMachineService.getCache(sum), HttpStatus.OK);
     }
 }

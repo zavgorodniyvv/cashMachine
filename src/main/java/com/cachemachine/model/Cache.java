@@ -2,14 +2,14 @@ package com.cachemachine.model;
 
 import java.util.Objects;
 
-public class AddCacheDTO {
+public class Cache {
     int par;
     int quantity;
 
-    public AddCacheDTO() {
+    public Cache() {
     }
 
-    public AddCacheDTO(int par, int quantity) {
+    public Cache(int par, int quantity) {
         this.par = par;
         this.quantity = quantity;
     }
@@ -34,7 +34,7 @@ public class AddCacheDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddCacheDTO that = (AddCacheDTO) o;
+        Cache that = (Cache) o;
         return par == that.par && quantity == that.quantity;
     }
 
